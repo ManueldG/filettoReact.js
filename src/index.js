@@ -84,7 +84,7 @@ class Game extends React.Component {
       const cron = this.state.cron.slice(0,this.state.stepNumber + 1);
       const current = cron[cron.length - 1];
       const squares = current.squares.slice(); // copia dati in squares
-             
+      console.log("click2",this.state);
       if (squares[i] || vincita(squares))
         return;
     
@@ -105,6 +105,7 @@ class Game extends React.Component {
   }
 
   jumpTo(step) {
+    console.log(this.state);
     this.setState({
       stepNumber: step,
       next: (step % 2) === 0
@@ -112,29 +113,29 @@ class Game extends React.Component {
   }   
   
   render() {      
-      console.log("render",this.state);
+      
       const cron = this.state.cron;
-      const current = cron[cron.length - 1];
+      const current = cron[this.state.stepNumber];
       const winner = vincita(current.squares);   
+      console.log("render",this.state);
       let status;
+
       if (winner) {     
           status = 'Winner: ' + winner;
       } else {      
           status = 'Next player: ' + (this.state.next ? 'X' : 'O');    
-        }
+        }       
 
-        
-
-        const moves = cron.map((val,index)=>{
-          const txt = val ? 'ritorna alla mossa '+ index : 'ricomincia';
-          return (
-            <li key={index}>
-                <button onClick={() => this.jumpTo(index)}>{txt}</button>
-            </li>
+      const moves = cron.map((val,index)=>{
+        const txt = val ? 'ritorna alla mossa '+ index : 'ricomincia';
+        return (
+          <li key={index}>
+              <button onClick={() => this.jumpTo(index)}>{txt}</button>
+          </li>
           )
         }
 
-        )
+      )
 
       return(
       <div className="game">
